@@ -1,4 +1,5 @@
 from data_handler import Data_Handler
+from csv_writer import CSV_Writer
 
 # how many grades a high school must have to be added
 # for example, a high school with only freshman may not be suitable
@@ -48,7 +49,14 @@ file_data = {
     }
 }
 
+write_files = {
+    "name": "files/All_High_Schools.csv"
+}
+
 if __name__ == "__main__":
+    csvw = CSV_Writer(write_files["name"])
+
     for key in list(file_data.keys()):
         dh = Data_Handler(file_data[key]["file_name"], file_data[key]["name_column"], file_data[key]["city_column"], file_data[key]["state_column"], file_data[key]["level_column"], min_grade_size, file_data[key]["grade_columns"], file_data[key]["good_levels"], convert_state=file_data[key]["convert_state"])
-        print(dh.get_school_names())
+        schools = dh.get_school_names()
+        csvw.add_schools(schools)
