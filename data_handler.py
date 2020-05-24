@@ -1,6 +1,8 @@
 import csv
 import os
 from state_abbrevs import us_state_abbrev
+from titlecase import titlecase
+
 
 class Data_Handler:
     file_types = ("csv")
@@ -74,16 +76,21 @@ class Data_Handler:
                         max_grade = self.convert_grade(row[column_indexes[5]])
 
                     if self.check_school(row[column_indexes[3]], min_grade, max_grade):
-                        school_name = row[column_indexes[0]]
-                        school_city = row[column_indexes[1]]
+                        school_name = self.change_case(row[column_indexes[0]])
+                        school_city = self.change_case(row[column_indexes[1]])
                         if self.convert_state:
                             school_state = self.convert_to_full_state(row[column_indexes[2]])
                         else:
-                            school_state = row[column_indexes[2]]
+                            school_state = self.change_case(row[column_indexes[2]])
 
                         school_data.append([school_name, school_city, school_state])
 
         return school_data
+
+
+    def change_case(self, string):
+        return titlecase(string)
+
 
     # checks if school is valid:
     #   - valid level
