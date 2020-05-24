@@ -3,7 +3,7 @@ from csv_writer import CSV_Writer
 
 # how many grades a high school must have to be added
 # for example, a high school with only freshman may not be suitable
-min_grade_size = 3
+min_grade_size = 2
 
 file_data = {
     "public": {
