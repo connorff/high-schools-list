@@ -1,10 +1,11 @@
 import csv
 import os
+from state_abbrevs import us_state_abbrev
 
 class Data_Handler:
     file_types = ("csv")
 
-    def __init__(self, file_name, school_name_column, school_city_column, school_state_column, school_level_column, min_grade_size, grade_columns, good_levels):
+    def __init__(self, file_name, school_name_column, school_city_column, school_state_column, school_level_column, min_grade_size, grade_columns, good_levels, convert_state = False):
         if not file_name.endswith(self.file_types):
             raise ValueError(f"File must be of types: {self.file_types}")
         
@@ -20,6 +21,7 @@ class Data_Handler:
         self.min_grade_size = min_grade_size
         self.grade_columns = grade_columns
         self.good_levels = good_levels
+        self.convert_state = convert_state
 
     
     def file_exists(self, file_name):
@@ -74,7 +76,10 @@ class Data_Handler:
                     if self.check_school(row[column_indexes[3]], min_grade, max_grade):
                         school_name = row[column_indexes[0]]
                         school_city = row[column_indexes[1]]
-                        school_state = row[column_indexes[2]]
+                        if self.convert_state:
+                            school_state = self.convert_to_full_state(row[column_indexes[2]])
+                        else:
+                            school_state = row[column_indexes[2]]
 
                         school_data.append([school_name, school_city, school_state])
 
@@ -111,3 +116,8 @@ class Data_Handler:
 
     def get_school_city(self, row):
         city_index = 1
+
+    
+    # converts abbreviation of state to full name
+    def convert_to_full_state(self, abb):
+        return us_state_abbrev[abb]

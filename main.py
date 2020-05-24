@@ -31,7 +31,8 @@ file_data = {
                 # adult education
                 "AE": 0,
             }
-        ]
+        ],
+        "convert_state": False,
     },
     "private": {
         "file_name": "files/Private_Universe_Survey.csv",
@@ -42,10 +43,12 @@ file_data = {
         "good_levels": [
             "2",
         ],
-        "grade_columns": None
+        "grade_columns": None,
+        "convert_state": True,
     }
 }
 
 if __name__ == "__main__":
     for key in list(file_data.keys()):
-        dh = Data_Handler(file_data[key]["file_name"], file_data[key]["name_column"], file_data[key]["city_column"], file_data[key]["state_column"], file_data[key]["level_column"], min_grade_size, file_data[key]["grade_columns"], file_data[key]["good_levels"])
+        dh = Data_Handler(file_data[key]["file_name"], file_data[key]["name_column"], file_data[key]["city_column"], file_data[key]["state_column"], file_data[key]["level_column"], min_grade_size, file_data[key]["grade_columns"], file_data[key]["good_levels"], convert_state=file_data[key]["convert_state"])
+        print(dh.get_school_names())
